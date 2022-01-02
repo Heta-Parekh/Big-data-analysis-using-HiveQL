@@ -14,3 +14,7 @@ the data file from amazon S3 as follows:
 ```
 $ wget -O CarData.zip http://usedcardataset.s3.amazonaws.com/archive.zip
 ```
+Then, you need to unzip the files.
+```
+$ unzip CarData.zip
+```
