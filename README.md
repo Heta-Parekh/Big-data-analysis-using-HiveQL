@@ -105,6 +105,8 @@ FROM cargurus_usedcars
 WHERE year >= 2015 and year <= 2020
 GROUP BY make_name, model_name, year;
 ```
+![image](https://user-images.githubusercontent.com/75762778/147886410-b7c7e5f7-34e7-49d6-b9fe-4197149bd4d8.png)
+
 ## 2. The below command provides N-gram sentiment analysis of top seller rating cars.
 ```
 Create table bigram_analysis(new_ar array<struct<ngram:array<string>, estfrequency:double>>);
@@ -125,7 +127,7 @@ Now you can query the content of the table:
 ```
 select * from frequency_bigram limit 10;
 ```
-## 3. 3. The below query will create a table based on the inventory of cars based on body type and price range for the past 5 years.
+## 3. The below query will create a table based on the inventory of cars based on body type and price range for the past 5 years.
 Copy and paste the following Hive code to Beeline shell to create a table carsPriceRange :
 This table will analyse data based on the price range.
 ```
@@ -218,5 +220,7 @@ INSERT OVERWRITE TABLE bodystyle_region
 SELECT body_type, city, latitude, longitude, make_name, year from cargurus_usedcars
 where body_type != ' ' and year >= 2010 and year <= 2020 and year != ' ';
 ```
+![image](https://user-images.githubusercontent.com/75762778/147886256-c69c2e54-43b6-4eb1-98fa-db5817e0016e.png)
+
 
 
