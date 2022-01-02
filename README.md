@@ -105,7 +105,7 @@ FROM cargurus_usedcars
 WHERE year >= 2015 and year <= 2020
 GROUP BY make_name, model_name, year;
 ```
-![image](https://user-images.githubusercontent.com/75762778/147886410-b7c7e5f7-34e7-49d6-b9fe-4197149bd4d8.png)
+![image](https://user-images.githubusercontent.com/75762778/147886441-8af2ebff-5328-4f57-9ebf-c0c29d8dd3be.png)
 
 ## 2. The below command provides N-gram sentiment analysis of top seller rating cars.
 ```
@@ -127,6 +127,8 @@ Now you can query the content of the table:
 ```
 select * from frequency_bigram limit 10;
 ```
+![image](https://user-images.githubusercontent.com/75762778/147886471-0a9a4a6c-f17f-4880-a59a-7cfa2e811f90.png)
+
 ## 3. The below query will create a table based on the inventory of cars based on body type and price range for the past 5 years.
 Copy and paste the following Hive code to Beeline shell to create a table carsPriceRange :
 This table will analyse data based on the price range.
@@ -159,6 +161,8 @@ Now you can query the content of the table:
 ```
 select * from CarsPriceRangeByBodyType limit 10;
 ```
+![image](https://user-images.githubusercontent.com/75762778/147886562-7faae020-1e36-4cf7-8cb8-9b9e231b2ee1.png)
+
 ## 4. The below command will create a table based on the make and model of the car to check which will take longer time to sell.
 ```
 CREATE TABLE daysonmarketbydays AS select make_name,model_name, case when daysonmarket > 0
@@ -180,6 +184,8 @@ Now you can query the content of the table:
 ```
 select * from car_market_days_range limit 10;
 ```
+![image](https://user-images.githubusercontent.com/75762778/147886618-e3f3e773-0b7c-48cf-b778-48c932a9cf71.png)
+
 ## 5. The below command will create a table based on the inventory of cars having more accidents.
 ```
 CREATE EXTERNAL TABLE IF NOT EXISTS car_has_accidents_model ( make_name string, model_name
@@ -195,6 +201,8 @@ Now you can query the content of the table:
 ```
 select * from car_has_accidents_model limit 10;
 ```
+![image](https://user-images.githubusercontent.com/75762778/147886595-b57cbd9d-5f2e-4977-b32d-89347090c672.png)
+
 ## 6. The below command will create a table based on the inventory of used cars by body type.
 ```
 CREATE TABLE IF NOT EXISTS count_by_bodytype ROW FORMAT DELIMITED FIELDS TERMINATED BY
@@ -202,6 +210,8 @@ CREATE TABLE IF NOT EXISTS count_by_bodytype ROW FORMAT DELIMITED FIELDS TERMINA
 body_type as BodyType, count(vin) as total from cargurus_usedcars group by body_type having
 count(vin) > 100 and trim(body_type) != '' and body_type is NOT NULL order by BodyType;
 ```
+![image](https://user-images.githubusercontent.com/75762778/147886642-65f115bc-7405-4fc6-a1ed-85eca76d056a.png)
+
 ## 7. The below command will create a table showing inventory of used cars by year.
 ```
 CREATE EXTERNAL TABLE IF NOT EXISTS inventory_car (year int, no_of_cars int) ROW FORMAT
@@ -210,6 +220,8 @@ DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE LOCATION
 INSERT OVERWRITE TABLE inventory_car SELECT year, Count(*) FROM cargurus_usedcars WHERE
 year > 2005 GROUP BY year;
 ```
+![image](https://user-images.githubusercontent.com/75762778/147886527-dfc241a7-798f-4628-b3a7-cfb56a513275.png)
+
 ## 8. The below command will create a table showing inventory of used cars by body styles and geographical location of the past ten years.
 ```
 CREATE EXTERNAL TABLE IF NOT EXISTS bodystyle_region(body_type string, city string, latitude string,
