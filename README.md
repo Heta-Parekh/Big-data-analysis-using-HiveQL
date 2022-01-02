@@ -140,4 +140,20 @@ Now you can query the content of the table:
 ```
 select * from carsPriceRange limit 10;
 ```
+Once the carsPriceRange table has been created we will group the data by body type and price range to
+get the final result.
+```
+CREATE EXTERNAL TABLE IF NOT EXISTS CarsPriceRangeByBodyType(price_range string, body_type
+string,Car_count string) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE
+LOCATION '/user/hparekh2/GP2TermProject/tables/CarsPriceRangeByBodyType/';
+
+INSERT OVERWRITE TABLE CarsPriceRangeByBodyType select
+price_range,body_type,count(price_range) from carsPriceRange group by price_range,body_type
+order by price_range;
+```
+Now you can query the content of the table:
+```
+select * from CarsPriceRangeByBodyType limit 10;
+```
+
 
