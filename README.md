@@ -18,3 +18,22 @@ Then, you need to unzip the files.
 ```
 $ unzip CarData.zip
 ```
+Run the following commands for creating directories:
+```
+$ hdfs dfs -mkdir GP2TermProject
+$ hdfs dfs -mkdir GP2TermProject/tables
+$ hdfs dfs -mkdir GP2TermProject/tables/cgdata
+```
+To view the files and directories created at HDFS use the following command:
+```
+$ hdfs dfs -ls GP2TermProject/tables
+```
+Run the following commands to put dictionaries into respective folders:
+```
+$ hdfs dfs -put /dev/shm/used_cars_data.csv GP2TermProject/tables/cgdata/
+```
+You can run the following commands to check the files are there:
+```
+$ hdfs dfs -ls GP2TermProject/tables/cgdata/
+```
+
