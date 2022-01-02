@@ -41,3 +41,14 @@ Run the following HDFS command to provide permission to the files under the proj
 ```
 $ hdfs dfs -chmod -R o+w GP2TermProject/
 ```
+```
+$ beeline
+```
+ Type the connect command as follows, and it should be given by the instructor:
+ ```
+ beeline> !connect
+jdbc:hive2://bigdai-nov-bdcsce-1:2181,bigdai-nov-bdcsce-2:2181,bigdai-nov-bdcsce-3:2181/;serviceDi
+scoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2?tez.queue.name=interactive
+bdcsce_admin
+```
+
