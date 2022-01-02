@@ -80,3 +80,28 @@ string, width string, year int) ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.
 WITH SERDEPROPERTIES ("separatorChar" = "," , "quoteChar" = "\"") STORED AS TEXTFILE LOCATION
 '/user/hparekh2/GP2TermProject/tables/cgdata/' TBLPROPERTIES ('skip.header.line.count' = '1');
 ```
+Then, in the beeline shell, you need to check if the table “cargurus_usedcars” is shown:
+```
+0: jdbc:hive2://bigdai-nov-bdcsce-1:2181,bigd> show tables;
+```
+Next you can query the content of the cargurus_usedcars table:
+```
+select vin, body_type, city, latitude, longitude, make_name, maximum_seating, mileage, model_name,
+price, seller_rating, transmission, trim_name, year from cargurus_usedcars limit 20;
+```
+## 1. The below command will create a table based on the make and model of the car which has more seller ratings in the past 5 years.
+Copy and paste the following Hive code to Beeline shell to create a table car_ratings:
+```
+CREATE EXTERNAL TABLE IF NOT EXISTS car_rating (
+make_name string, model_name string,year int, seller_rating string)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+STORED AS TEXTFILE LOCATION '/user/hparekh2/GP2TermProject/tables/car_rating/';
+
+INSERT OVERWRITE TABLE car_rating
+Select make_name, model_name, year, AVG(seller_rating)
+FROM cargurus_usedcars
+WHERE year >= 2015 and year <= 2020
+GROUP BY make_name, model_name, year;
+```
+
+
