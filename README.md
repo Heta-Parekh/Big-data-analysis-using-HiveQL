@@ -155,5 +155,22 @@ Now you can query the content of the table:
 ```
 select * from CarsPriceRangeByBodyType limit 10;
 ```
+## 4. The below command will create a table based on the make and model of the car to check which will take longer time to sell.
+```
+CREATE TABLE daysonmarketbydays AS select make_name,model_name, case when daysonmarket > 0
+and daysonmarket < 91 then '0 - 91' when daysonmarket > 91 and daysonmarket < 182 then '91 - 182'
+when daysonmarket > 182 and daysonmarket < 365 then '182 - 365' else '365 - above' end as
+days_range from cargurus_usedcars where body_type != '' and year >= 2015 and year <= 2020;
+```
+Now you can query the content of the table:
+```
+select * from daysonmarketbydays limit 10;
+CREATE EXTERNAL TABLE IF NOT EXISTS car_market_days_range(make_name string,model_name
+string,days_range string ,Car_count string) ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+STORED AS TEXTFILE LOCATION '/user/hparekh2/GP2TermProject/tables/CarsdaysRangeByMake/';
+INSERT OVERWRITE TABLE car_market_days_range select
+make_name,model_name,days_range,count(days_range) from daysonmarketbydays group by
+make_name,model_name,days_range order by days_range;
+```
 
 
