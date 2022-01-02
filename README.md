@@ -172,5 +172,49 @@ INSERT OVERWRITE TABLE car_market_days_range select
 make_name,model_name,days_range,count(days_range) from daysonmarketbydays group by
 make_name,model_name,days_range order by days_range;
 ```
+Now you can query the content of the table:
+```
+select * from car_market_days_range limit 10;
+```
+## 5. The below command will create a table based on the inventory of cars having more accidents.
+```
+CREATE EXTERNAL TABLE IF NOT EXISTS car_has_accidents_model ( make_name string, model_name
+string,year int, car_has_accidents string, has_accidents_count string) ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ',' STORED AS TEXTFILE LOCATION
+'/user/hparekh2/GP2TermProject/tables/CarsHasAccidentByMake/' ;
+
+INSERT OVERWRITE TABLE car_has_accidents_model Select make_name, model_name,
+year,has_accidents, count(has_accidents) FROM cargurus_usedcars WHERE year >= 2005 and year <=
+2020 GROUP BY make_name, model_name, year , has_accidents;
+```
+Now you can query the content of the table:
+```
+select * from car_has_accidents_model limit 10;
+```
+## 6. The below command will create a table based on the inventory of used cars by body type.
+```
+CREATE TABLE IF NOT EXISTS count_by_bodytype ROW FORMAT DELIMITED FIELDS TERMINATED BY
+":" STORED AS TEXTFILE LOCATION "/user/hparekh2/GP2TermProject/tables/bodytype" AS select
+body_type as BodyType, count(vin) as total from cargurus_usedcars group by body_type having
+count(vin) > 100 and trim(body_type) != '' and body_type is NOT NULL order by BodyType;
+```
+## 7. The below command will create a table showing inventory of used cars by year.
+```
+CREATE EXTERNAL TABLE IF NOT EXISTS inventory_car (year int, no_of_cars int) ROW FORMAT
+DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE LOCATION
+'/user/hparekh2/GP2TermProject/tables/inventory_car';
+INSERT OVERWRITE TABLE inventory_car SELECT year, Count(*) FROM cargurus_usedcars WHERE
+year > 2005 GROUP BY year;
+```
+## 8. The below command will create a table showing inventory of used cars by body styles and geographical location of the past ten years.
+```
+CREATE EXTERNAL TABLE IF NOT EXISTS bodystyle_region(body_type string, city string, latitude string,
+longitude string, make_name string, year string)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+STORED AS TEXTFILE LOCATION '/user/hparekh2/GP2TermProject/tables/bodystyle_region/';
+INSERT OVERWRITE TABLE bodystyle_region
+SELECT body_type, city, latitude, longitude, make_name, year from cargurus_usedcars
+where body_type != ' ' and year >= 2010 and year <= 2020 and year != ' ';
+```
 
 
