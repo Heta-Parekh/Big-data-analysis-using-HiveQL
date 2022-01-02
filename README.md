@@ -1,5 +1,7 @@
 # Big-Data-Project
-Cargurus Used Car Data Analysis using Apache Hadoop
+Used car dataset holds information related to the car design based on model type and brand with the seller rating and description for the same. This
+project contributes the analysis by inventory of cars in terms of make and model, geological location and price-range varying with brands. N-gram analysis has been performed
+based on the car description; contributes analysis done for car takes a longer time to selling as well as classification of car makes and model on the terms of accidents. To get accurate results-big data tools, methods and various technologies are implemented in this term project. The dataset was collected as the used car dataset from Kaggle, and it consists of 3 million car records from the year 2005 to September 2020. The data set was massive to store and thus it needs to process with the framework of Hadoop to access the data. The dataset was first loaded to amazon s3. Using wget, the data is downloaded and uploaded to Hadoop where Hadoop Distributed file system (HDFS) is used to store the data and MapReduce to process the data. The data was further processed in Hadoop’s ecosystem –Apache Hive by starting the Beeline and connecting it to the Hive server in to process and analyze to data draw insights.
 
 # Platform Specifications
 ##### Cluster Version – Oracle Big Data Compute Edition
