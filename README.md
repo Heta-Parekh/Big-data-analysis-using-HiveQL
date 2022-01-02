@@ -36,4 +36,8 @@ You can run the following commands to check the files are there:
 ```
 $ hdfs dfs -ls GP2TermProject/tables/cgdata/
 ```
-
+Run the following HDFS command to provide permission to the files under the project folder.
+**NOTE**: To make your beeline command work properly, use the following command.
+```
+$ hdfs dfs -chmod -R o+w GP2TermProject/
+```
