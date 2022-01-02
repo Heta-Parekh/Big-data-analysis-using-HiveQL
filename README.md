@@ -103,5 +103,41 @@ FROM cargurus_usedcars
 WHERE year >= 2015 and year <= 2020
 GROUP BY make_name, model_name, year;
 ```
-
+## 2. The below command provides N-gram sentiment analysis of top seller rating cars.
+```
+Create table bigram_analysis(new_ar array<struct<ngram:array<string>, estfrequency:double>>);
+INSERT OVERWRITE TABLE bigram_analysis
+Select context_ngrams(sentences(lower(description)), array(null,null),100)as bigram
+FROM cargurus_usedcars
+WHERE make_name IN ('Lotus','Bentley', 'Ferrari', 'Karma', 'Lamborghini', 'Rolls-Royce', 'Porsche',
+'McLaren', 'Aston Martin', 'smart', 'MINI', 'Jaguar', 'Tesla', 'Lexus', 'Audi', 'Land Rover', 'Mercedes')
+AND year >= 2015;
+Create table frequency_bigram (ngram string, estfrequency double)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+STORED AS TEXTFILE LOCATION '/user/hparekh2/GP2TermProject/tables/ngramAnalysis/';
+Insert overwrite table frequency_bigram
+Select concat(X.ngram[0], ' ',X.ngram[1]) as bigram, X.estfrequency
+From bigram_analysis LATERAL VIEW explode(new_ar) Z as X;
+```
+Now you can query the content of the table:
+```
+select * from frequency_bigram limit 10;
+```
+## 3. 3. The below query will create a table based on the inventory of cars based on body type and price range for the past 5 years.
+Copy and paste the following Hive code to Beeline shell to create a table carsPriceRange :
+This table will analyse data based on the price range.
+```
+CREATE TABLE carsPriceRange AS select body_type, price , case when price > 0 and price < 10000 then
+'0 - 10000' when price > 10000 and price < 20000 then '10000 - 20000' when price > 20000 and price <
+30000 then '20000 - 30000' when price > 30000 and price < 40000 then '30000 - 40000' when price >
+40000 and price < 50000 then '40000 - 50000' when price > 50000 and price < 60000 then '50000 -
+60000' when price > 60000 and price < 70000 then '60000 - 70000' when price > 70000 and price <
+80000 then '70000 - 80000' when price > 80000 and price < 90000 then '80000 - 90000' else '90000 -
+above' end as price_range from cargurus_usedcars where body_type != '' and year >= 2015 and year
+<= 2020;
+```
+Now you can query the content of the table:
+```
+select * from carsPriceRange limit 10;
+```
 
